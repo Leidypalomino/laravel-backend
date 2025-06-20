@@ -807,7 +807,7 @@
                     },
                     "name": {
                         "type": "string",
-                        "example": "Arnold González"
+                        "example": "Leidy Palomino"
                     },
                     "email": {
                         "type": "string",

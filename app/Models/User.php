@@ -15,7 +15,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * title="User Schema",
  * description="Representa a un usuario del sistema",
  * @OA\Property(property="id", type="integer", readOnly=true, example=1),
- * @OA\Property(property="name", type="string", example="Arnold González"),
+ * @OA\Property(property="name", type="string", example="Leidy Palomino"),
  * @OA\Property(property="email", type="string", format="email", example="user@example.com"),
  * @OA\Property(property="role", type="string", enum={"admin", "customer"}, example="customer"),
  * @OA\Property(property="is_active", type="boolean", example=true),

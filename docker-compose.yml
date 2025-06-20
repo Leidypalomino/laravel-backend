@@ -9,8 +9,8 @@ services:
       context: .
       dockerfile: docker/backend/Dockerfile
       args:
-        user: arnold_onzalez # Reemplaza con tu usuario local para permisos
-        uid: 1000 # Reemplaza con el UID de tu usuario (ejecuta `id -u`)
+        user: leidy_palomino
+        uid: 1000
     container_name: ecom-app
     restart: unless-stopped
     working_dir: /var/www
