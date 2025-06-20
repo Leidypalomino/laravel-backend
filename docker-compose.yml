@@ -1,38 +1,21 @@
-# docker-compose.yml (Versión Final Automatizada)
-
-version: '3.8'
-
+# The Final, Simplest docker-compose.yml
 services:
-  # Servicio de la aplicación Laravel (PHP-FPM)
   app:
     build:
       context: .
       dockerfile: docker/backend/Dockerfile
-      args:
-        user: leidy_palomino
-        uid: 1000
+    env_file:
+      - .env
     container_name: ecom-app
     restart: unless-stopped
     working_dir: /var/www
     volumes:
       - .:/var/www
-    # El 'command' se ejecuta después de que el contenedor se construye y levanta.
-    # Automatiza todos los pasos de configuración de Laravel.
-    command: >
-      sh -c "
-        composer install &&
-        php artisan key:generate &&
-        php artisan config:clear &&
-        php artisan route:clear &&
-        php artisan cache:clear &&
-        php artisan migrate:fresh --seed --force &&
-        php artisan l5-swagger:generate &&
-        php-fpm
-      "
+      - app_vendor:/var/www/vendor
+    # The 'healthcheck' block has been completely removed.
     networks:
       - ecom_network
 
-  # Servidor Web Nginx
   nginx:
     image: nginx:1.21-alpine
     container_name: ecom-nginx
@@ -43,13 +26,10 @@ services:
       - .:/var/www
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      # Nginx solo arrancará después de que la app y la db estén listas
-      - app 
-      - db
+      - app # Using the simple dependency, not the healthcheck condition
     networks:
       - ecom_network
 
-  # Base de Datos PostgreSQL
   db:
     image: postgres:15-alpine
     container_name: ecom-db
@@ -65,7 +45,6 @@ services:
     networks:
       - ecom_network
 
-  # Servidor de Caché Redis
   redis:
     image: redis:7-alpine
     container_name: ecom-redis
@@ -82,3 +61,4 @@ networks:
 volumes:
   db_data:
     driver: local
+  app_vendor: {}
